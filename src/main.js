@@ -35,10 +35,21 @@ function handleSubmit(evt) {
       form.reset();
       document.querySelector('.loader').remove();
       if (data.hits.length === 0) {
-        iziToast.error({
+        const errorAlert = iziToast.error({
           message:
             'Sorry, there are no images matching <br> your search query. Please try again!',
           position: 'topRight',
+          class: 'error-alert',
+          onOpened: function () {
+            searchBtn.addEventListener('click', () => {
+              iziToast.destroy();
+            });
+          },
+          onClosed: function () {
+            searchBtn.removeEventListener('click', () => {
+              iziToast.destroy();
+            });
+          },
         });
       } else {
         const htmlMarkup = data.hits
@@ -77,5 +88,6 @@ function handleSubmit(evt) {
     })
     .catch(error => {
       alert('An error occured');
+      console.log(error);
     });
 }
