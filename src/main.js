@@ -7,11 +7,16 @@ const searchBtn = document.querySelector('.search-btn');
 const searchInput = document.querySelector('.search-input');
 const gallery = document.querySelector('.gallery');
 
+const galleryLightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+});
+
 form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(evt) {
   evt.preventDefault();
   gallery.innerHTML = '';
+  gallery.insertAdjacentHTML('beforebegin', '<span class="loader"></span>');
   const searchParams = new URLSearchParams({
     key: '41849912-0888eabd10c40a0c420151dd5',
     q: `${searchInput.value}`,
@@ -27,6 +32,8 @@ function handleSubmit(evt) {
       return response.json();
     })
     .then(data => {
+      form.reset();
+      document.querySelector('.loader').remove();
       if (data.hits.length === 0) {
         iziToast.error({
           message:
@@ -65,9 +72,7 @@ function handleSubmit(evt) {
           )
           .join('');
         gallery.insertAdjacentHTML('afterbegin', htmlMarkup);
-        const lightbox = new SimpleLightbox('.gallery a', {
-          captionsData: 'alt',
-        });
+        galleryLightbox.refresh();
       }
     })
     .catch(error => {
