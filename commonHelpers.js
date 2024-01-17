@@ -22,5 +22,5 @@ import{S as c,i as d}from"./assets/vendor-46aac873.js";(function(){const o=docum
           </div>
         </div>
         </li>
-              `).join("");a.insertAdjacentHTML("beforeend",i),h.refresh(),s.target.reset()}}).catch(r=>{console.log(r)})}
+              `).join("");a.insertAdjacentHTML("beforeend",i),h.refresh()}s.target.reset()}).catch(r=>{console.log(r)})}
 //# sourceMappingURL=commonHelpers.js.map
