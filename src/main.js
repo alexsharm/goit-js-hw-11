@@ -72,8 +72,8 @@ function handleSubmit(evt) {
           .join('');
         gallery.insertAdjacentHTML('beforeend', htmlMarkup);
         galleryLightbox.refresh();
-        evt.target.reset();
       }
+      evt.target.reset();
     })
     .catch(error => {
       console.log(error);
