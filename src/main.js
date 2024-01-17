@@ -3,9 +3,8 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 const form = document.querySelector('.search-form');
-const searchBtn = document.querySelector('.search-btn');
-const searchInput = document.querySelector('.search-input');
 const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
 const galleryLightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -16,10 +15,10 @@ form.addEventListener('submit', handleSubmit);
 function handleSubmit(evt) {
   evt.preventDefault();
   gallery.innerHTML = '';
-  gallery.insertAdjacentHTML('beforebegin', '<span class="loader"></span>');
+  loader.classList.remove('is-hidden');
   const searchParams = new URLSearchParams({
     key: '41849912-0888eabd10c40a0c420151dd5',
-    q: `${searchInput.value}`,
+    q: evt.target.elements.search.value.trim(),
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
@@ -32,24 +31,13 @@ function handleSubmit(evt) {
       return response.json();
     })
     .then(data => {
-      form.reset();
-      document.querySelector('.loader').remove();
+      loader.classList.add('is-hidden');
       if (data.hits.length === 0) {
         const errorAlert = iziToast.error({
           message:
             'Sorry, there are no images matching <br> your search query. Please try again!',
           position: 'topRight',
           class: 'error-alert',
-          onOpened: function () {
-            searchBtn.addEventListener('click', () => {
-              iziToast.destroy();
-            });
-          },
-          onClosed: function () {
-            searchBtn.removeEventListener('click', () => {
-              iziToast.destroy();
-            });
-          },
         });
       } else {
         const htmlMarkup = data.hits
@@ -82,12 +70,12 @@ function handleSubmit(evt) {
               `
           )
           .join('');
-        gallery.insertAdjacentHTML('afterbegin', htmlMarkup);
+        gallery.insertAdjacentHTML('beforeend', htmlMarkup);
         galleryLightbox.refresh();
+        evt.target.reset();
       }
     })
     .catch(error => {
-      alert('An error occured');
       console.log(error);
     });
 }

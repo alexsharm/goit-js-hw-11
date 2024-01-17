@@ -139,3 +139,7 @@ ul {
     transform: translate(-10px, -10px);
   }
 }
+
+.is-hidden {
+  display: none;
+}

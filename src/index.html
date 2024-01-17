@@ -15,9 +15,15 @@
   </head>
   <body>
     <form class="search-form">
-      <input class="search-input" type="text" placeholder="Search images..." />
+      <input
+        name="search"
+        class="search-input"
+        type="text"
+        placeholder="Search images..."
+      />
       <button type="submit" class="search-btn">Search</button>
     </form>
+    <span class="loader is-hidden"></span>
     <ul class="gallery"></ul>
     <script type="module" src="./main.js"></script>
   </body>
